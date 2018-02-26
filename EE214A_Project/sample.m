@@ -28,7 +28,7 @@ for(i = 1:length(myFiles))
     end
 end
 
-% Train the classifier
+%% Train the classifier
 fid = fopen(trainList);
 myData = textscan(fid,'%s %s %f');
 fclose(fid);
@@ -41,7 +41,7 @@ for(i = 1:length(labels))
 end
 [~,threshold] = compute_eer(scores,labels);
 
-% Test the classifier
+%% Test the classifier
 fid = fopen(testList);
 myData = textscan(fid,'%s %s %f');
 fclose(fid);
@@ -60,7 +60,11 @@ disp(['The false negative rate is ',num2str(FNR*100),'%.'])
 
 toc
 
-
-
+%%
+C = confusionmat(labels > 0.5, prediction)
+FPR = sum(~labels & prediction)/sum(~labels);
+FNR = sum(labels & ~prediction)/sum(labels);
+disp(['The false positive rate is ',num2str(FPR*100),'%.'])
+disp(['The false negative rate is ',num2str(FNR*100),'%.'])
 
 
